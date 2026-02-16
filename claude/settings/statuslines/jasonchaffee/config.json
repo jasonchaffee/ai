@@ -1,0 +1,7 @@
+{
+  "statusLine": {
+    "type": "command",
+    "command": "python3 ~/.claude/scripts/jasonchaffee-statusline.py",
+    "padding": 0
+  }
+}
