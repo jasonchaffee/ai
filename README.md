@@ -21,22 +21,21 @@ Unified configuration for AI coding assistants: Claude, Gemini, ChatGPT, Copilot
 
 ```
 claude/
-  commands/       # Slash commands
-  subagents/      # Specialized agent definitions
-  skills/         # Packaged skills
+  commands/       # Claude slash commands (Markdown)
+  subagents/      # Specialized Claude agent definitions
+  skills/         # Claude packaged skills
   settings/
-    statuslines/  # Custom statusline implementations
+    statuslines/  # Claude statusline implementations
+gemini/
+  commands/       # Gemini custom commands (TOML)
+  hooks/          # Gemini lifecycle hooks (Python/Bash)
+  skills/         # Gemini packaged skills (SKILL.md)
 ```
 
 ## Commands
 
-Markdown files with YAML frontmatter:
-- `description`: What the command does
-- `category`: Command grouping
-- `argument-hint`: Expected arguments
-- `allowed-tools`: Tool restrictions
-
-### Available Commands
+### Claude Commands
+Markdown files with YAML frontmatter. Refer to `CLAUDE.md` for format details.
 
 | Command | Description |
 |---------|-------------|
@@ -62,23 +61,16 @@ Markdown files with YAML frontmatter:
 | `weekly-changes-summary` | Summarize weekly merged changes |
 | `write-epic` | Write Jira epics |
 
-## Subagents
+### Gemini Commands
+TOML files defining steps and prompts. Refer to `GEMINI.md` for format details.
 
-Specialized agents with domain expertise. Frontmatter:
-- `name`: Agent identifier
-- `description`: When to use this agent
-- `tools`: Allowed tool list
-- `category`: Agent grouping
+| Command | Description |
+|---------|-------------|
+| `status` | Show project status, git info, and context usage |
 
 ## Skills
 
-Packaged skills containing:
-- `SKILL.md`: Main skill definition with frontmatter
-- `README.md`: Usage documentation
-- `references/`: Supporting documentation
-- `scripts/`: Helper scripts (if any)
-
-### Available Skills
+Packaged skills containing a `SKILL.md` definition file.
 
 | Skill | Description |
 |-------|-------------|
@@ -94,9 +86,18 @@ Packaged skills containing:
 | `security-code-review` | Comprehensive OWASP-based code review |
 | `survey-designer` | Design surveys and questionnaires |
 
+## Hooks
+
+### Gemini Hooks
+Executable scripts triggered by Gemini CLI lifecycle events.
+
+| Hook | Event | Description |
+|------|-------|-------------|
+| `statusline` | `AfterAgent` | Displays emoji-rich status line after each turn |
+
 ## Settings
 
-### Statuslines
+### Claude Statuslines
 
 Custom statusline implementations for Claude Code CLI. See `claude/settings/statuslines/README.md` for details.
 
