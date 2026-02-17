@@ -1,0 +1,8 @@
+# Status command for Gemini CLI
+description = "Show current project status, git info, and context usage"
+
+[[steps]]
+name = "check_status"
+# This command just triggers the statusline hook logic manually
+# It assumes the script is available in .gemini/hooks/statusline.py
+command = "cat $TRANSCRIPT_PATH | python3 .gemini/hooks/statusline.py"
