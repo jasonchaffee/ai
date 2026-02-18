@@ -7,7 +7,10 @@ import subprocess
 # =============================================================================
 # Configuration
 # =============================================================================
-CONTEXT_LIMIT = 200000
+CONTEXT_LIMITS = {
+    '1m': 1000000,
+    'default': 200000,
+}
 
 # Model emojis
 MODEL_EMOJIS = {
@@ -27,6 +30,14 @@ CONTEXT_COLORS = [
 # =============================================================================
 # Helper Functions
 # =============================================================================
+def get_context_limit(model_id):
+    """Get context limit based on model ID suffix (e.g. [1m])."""
+    model_lower = model_id.lower()
+    for key, limit in CONTEXT_LIMITS.items():
+        if key != 'default' and key in model_lower:
+            return limit
+    return CONTEXT_LIMITS['default']
+
 def get_model_emoji(model_name):
     """Get emoji for model based on name."""
     model_lower = model_name.lower()
@@ -190,18 +201,20 @@ def main():
 
     # Extract values
     model_name = data['model']['display_name']
+    model_id = data['model'].get('id', model_name)
     current_dir = os.path.basename(data['workspace']['current_dir'])
     transcript_path = data['transcript_path']
 
-    # Get model emoji
+    # Get model emoji and context limit
     model_emoji = get_model_emoji(model_name)
+    context_limit = get_context_limit(model_id)
 
     # Get git info
     git_branch, _ = get_git_info()
 
     # Get context usage
     context_used = get_context_usage(transcript_path)
-    context_percentage = (context_used / CONTEXT_LIMIT) * 100
+    context_percentage = (context_used / context_limit) * 100
     context_color = get_context_color(context_percentage)
 
     # Build status line
@@ -213,7 +226,7 @@ def main():
     if git_branch:
         parts.append(git_branch)
 
-    parts.append(f"{context_color} {context_percentage:.0f}% ({context_used:,}/{CONTEXT_LIMIT:,})")
+    parts.append(f"{context_color} {context_percentage:.0f}% ({context_used:,}/{context_limit:,})")
 
     print(" | ".join(parts))
 
