@@ -53,3 +53,6 @@ Keep explanations proportional to complexity. Simple changes need one sentence, 
 - **Never remove, skip, or disable failing tests without asking first.**
 - When tests fail, investigate the root cause. Failing tests may indicate a problem with the implementation or architecture — not with the test itself.
 - Fix the code to pass the test, not the test to pass the code.
+- Tests must verify **expected behaviors**, not implementation details. Test what the code *does*, not how it does it.
+- Don't write trivial tests that just mirror the implementation (e.g., asserting a mock was called). Test real inputs, outputs, and side effects.
+- Prefer meaningful assertions over high test count.
