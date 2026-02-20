@@ -43,7 +43,9 @@ Keep explanations proportional to complexity. Simple changes need one sentence, 
 - Use `.claude/rules/*.md` for domain-specific patterns. Add YAML frontmatter with `paths:` to scope rules to relevant directories.
 - Keep `CLAUDE.md` concise. If Claude can learn it from reading the README, don't repeat it.
 
-## Testing
+## Testing — MANDATORY TDD
+- **ALWAYS use Test-Driven Development: write tests BEFORE writing implementation code.** No exceptions unless the user explicitly opts out for a single use case.
+- **Bug fixes are test-first:** write a failing test that reproduces the bug, then fix the code to make it pass.
 - Run tests before committing when test infrastructure exists in the project.
 - **Never remove, skip, or disable failing tests without asking first.**
 - When tests fail, investigate the root cause. Failing tests may indicate a problem with the implementation or architecture — not with the test itself.
