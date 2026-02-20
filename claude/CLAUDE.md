@@ -56,3 +56,4 @@ Keep explanations proportional to complexity. Simple changes need one sentence, 
 - Tests must verify **expected behaviors**, not implementation details. Test what the code *does*, not how it does it.
 - Don't write trivial tests that just mirror the implementation (e.g., asserting a mock was called). Test real inputs, outputs, and side effects.
 - Prefer meaningful assertions over high test count.
+- For tools, APIs, and public interfaces: test the full range of usage scenarios — happy path, edge cases, invalid inputs, error conditions, and boundary values.
