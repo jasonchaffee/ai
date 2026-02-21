@@ -202,7 +202,7 @@ def main():
     # Extract values
     model_name = data['model']['display_name']
     model_id = data['model'].get('id', model_name)
-    current_dir = os.path.basename(data['workspace']['current_dir'])
+    current_dir = data['workspace']['current_dir'].replace(os.path.expanduser('~'), '~')
     transcript_path = data['transcript_path']
 
     # Get model emoji and context limit
@@ -218,15 +218,19 @@ def main():
     context_color = get_context_color(context_percentage)
 
     # Build status line
-    parts = [
-        f"{model_emoji} {model_name}",
-        f"📁 {current_dir}",
-    ]
+    parts = [f"📁 {current_dir}"]
 
     if git_branch:
         parts.append(git_branch)
 
-    parts.append(f"{context_color} {context_percentage:.0f}% ({context_used:,}/{context_limit:,})")
+    # Compact context at low usage, verbose when it matters
+    if context_percentage > 50:
+        context_k = f"{context_used // 1000}k/{context_limit // 1000}k"
+        context_str = f"{context_color} {context_percentage:.0f}% ({context_k})"
+    else:
+        context_str = f"{context_color} {context_percentage:.0f}%"
+
+    parts.append(f"{model_name} {context_str}")
 
     print(" | ".join(parts))
 
